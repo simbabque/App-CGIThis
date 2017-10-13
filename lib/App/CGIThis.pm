@@ -9,12 +9,13 @@ use Getopt::Long;
 use Pod::Usage;
 use Plack::Runner;
 use Plack::App::CGIBin;
+use Plack::Builder;
 
 sub new {
     my $class = shift;
     my $self = bless { port => 3000, root => '.' }, $class;
 
-    GetOptions( $self, "help", "man", "port=i", "name=s" ) || pod2usage(2);
+    GetOptions( $self, "help", "man", "port=i", "name=s", "cgi-bin" ) || pod2usage(2);
     pod2usage(1) if $self->{help};
     pod2usage( -verbose => 2 ) if $self->{man};
 
@@ -40,10 +41,12 @@ sub run {
 
     eval {
         $runner->run(
-            Plack::App::CGIBin->new(
-                root    => $self->{root},
-                exec_cb => sub {1},
-            )->to_app
+            builder {
+                mount +( $self->{"cgi-bin"} ? "/cgi-bin" : "/" ) => Plack::App::CGIBin->new(
+                    root    => $self->{root},
+                    exec_cb => sub {1},
+                )->to_app;
+            }
         );
     };
     if ( my $e = $@ ) {
@@ -82,6 +85,7 @@ sub _server_ready {
 }
 
 1;
+
 # ABSTRACT: Export the current directory like a cgi-bin
 
 =head1 SYNOPSIS
