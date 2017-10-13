@@ -57,7 +57,7 @@ This feature requires the L<Net::Rendezvous::Publish> module and the appropriate
 backend for your operating system, both available from CPAN. If one
 of them cannot be found, a warning message will be displayed.
 
-=item cgi-bin
+=item --cgi-bin
 
 Include the C</cgi-bin> directory in the URL of your scripts. For the cozy
 legacy feeling.
