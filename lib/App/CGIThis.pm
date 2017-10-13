@@ -133,4 +133,6 @@ Start the HTTP server.
 
 =item * L<Plack>, L<Plack::App::CGIBin> and L<Net::Rendezvous::Publish>
 
+=back
+
 =cut
