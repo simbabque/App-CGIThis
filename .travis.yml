@@ -11,9 +11,6 @@ perl:
   - "5.26"
 
 matrix:
-  include:
-    - perl: 5.18
-      env: COVERAGE=1   # enables coverage+coveralls reporting
   allow_failures:
     - perl: blead       # ignore failures for blead perl
 before_install:
