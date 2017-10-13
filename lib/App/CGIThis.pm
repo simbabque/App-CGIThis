@@ -10,6 +10,7 @@ use Pod::Usage;
 use Plack::Runner;
 use Plack::App::CGIBin;
 use Plack::Builder;
+use File::Find::Rule;
 
 sub new {
     my $class = shift;
@@ -42,7 +43,7 @@ sub run {
     eval {
         $runner->run(
             builder {
-                mount +( $self->{"cgi-bin"} ? "/cgi-bin" : "/" ) => Plack::App::CGIBin->new(
+                mount + ( $self->{"cgi-bin"} ? "/cgi-bin" : "/" ) => Plack::App::CGIBin->new(
                     root    => $self->{root},
                     exec_cb => sub {1},
                 )->to_app;
@@ -65,6 +66,15 @@ sub _server_ready {
 
     print "Exporting '$self->{root}', available at:\n";
     print "   $proto://$host:$port/\n";
+
+    my @files =
+        map { s/^$self->{root}//; $_ } File::Find::Rule->file->name('*.pl')->in( $self->{root} );
+
+    if (@files) {
+        print "\nFound the following scripts:\n";
+        print "    $proto://$host:$port/" . ( $self->{"cgi-bin"} ? "cgi-bin" : "" ) . "/$_\n"
+            for @files;
+    }
 
     return unless my $name = $self->{name};
 
