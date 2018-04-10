@@ -68,7 +68,7 @@ sub _server_ready {
     print "   $proto://$host:$port/\n";
 
     my @files =
-        map { s/\Q^$self->{root}\E//; $_ } File::Find::Rule->file->name('*.pl','*.cgi')->in( $self->{root} );
+        map { s{^\Q$self->{root}\E/?}{}; $_ } File::Find::Rule->file->name('*.pl','*.cgi')->in( $self->{root} );
 
     if (@files) {
         print "\nFound the following scripts:\n";
