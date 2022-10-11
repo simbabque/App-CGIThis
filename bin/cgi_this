@@ -21,6 +21,9 @@ App::CGIThis->new->run;
     
     ## Start the server on a specific port
     $ cgi_this --port 9001
+
+    ## Set HTTP server to listen for incoming connections on 192.168.0.1
+    $ cgi_this --host 192.168.0.1
     
     ## Announces the HTTP server via Bonjour with the specified name
     $ cgi_this --name "My CGI server"
@@ -47,7 +50,11 @@ The following options are available:
 
 =item --port PORT
 
-Start the HTTP server ona specific C<PORT>. Default is 3000.
+Start the HTTP server on a specific C<PORT>. Default is 3000.
+
+=item --host IP_ADDRESS
+
+Set HTTP server to listen for incoming connections on C<IP_ADDRESS>. Default is 127.0.0.1.
 
 =item --name NAME
 
