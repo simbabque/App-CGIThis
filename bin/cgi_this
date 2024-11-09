@@ -40,7 +40,8 @@ App::CGIThis->new->run;
 =head1 DESCRIPTION
 
 Like L<http_this> and L<https_this>, but converts the directory to a C<cgi-bin>
-and runs every script in it as a CGI script.
+and runs every script in it as a CGI script. This is useful for testing old CGI 
+scripts when you don't have a web server installed.
 
 =head1 OPTIONS
 
@@ -78,6 +79,35 @@ Print information about the script usage and its options.
 Print the entire man page for the command.
 
 =back
+
+=head2 EXAMPLES
+
+The C<t/> directory of this distribution contains a few examples. Here is how to use them.
+
+    $ cgi_this t
+    Exporting 't', available at:
+    http://127.0.0.1:3000/
+
+    Found the following scripts:
+        http://127.0.0.1:3000/test-no-bin.cgi
+        http://127.0.0.1:3000/bin/test.pl    
+
+At this point you can visit the URLs in your browser and see the scripts in action. 
+
+If want some nostalgia, enable the C<--cgi-bin> option. It will stick a fake C</cgi-bin> in the URL.
+
+    $ cgi_this --cgi-bin t
+    Exporting 't', available at:
+    http://127.0.0.1:3000/
+
+    Found the following scripts:
+        http://127.0.0.1:3000/cgi-bin/test-no-bin.cgi
+        http://127.0.0.1:3000/cgi-bin/bin/test.pl
+
+=head2 SEE ALSO
+
+At the the Swiss Perl Workshop in 2018 Julien gave a talk about this and similar modules, 
+titled "Do stuff with _this". You can find a recording L<here|https://www.youtube.com/watch?v=b33MDXyl3Mw&t=26126>.
 
 =cut
 
